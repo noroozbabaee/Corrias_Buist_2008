@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="experiment_IK_B" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="time_units" units_ref="time_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+        <units name="R_units" units_ref="R_units"/>
+        <units name="F_units" units_ref="F_units"/>
+        <units name="Temperature_units" units_ref="Temperature_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="Inverse_Voltage_units" units_ref="Inverse_Voltage_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="current_units" units_ref="current_units"/>
+    </import>
+    <import xlink:href="../common/generator.cellml">
+        <component component_ref="experiment" name="experiment"/>
+    </import>
+    <connection>
+        <map_components component_1="experiment" component_2="I_BK_SM"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Ca_i" variable_2="Ca_i"/>
+        <map_variables variable_1="Vm_SM" variable_2="Vm_SM"/>
+    </connection>
+    <import xlink:href="IKB.cellml">
+        <component component_ref="I_BK_SM" name="I_BK_SM"/>
+    </import>
+    <import xlink:href="../common/parameters.cellml">
+        <component component_ref="parameter_values" name="parameter_values"/>
+    </import>
+    <connection>
+        <map_components component_1="parameter_values" component_2="I_BK_SM"/>
+        <map_variables variable_1="RToF" variable_2="RToF"/>
+        <map_variables variable_1="K_o" variable_2="K_o"/>
+        <map_variables variable_1="K_i" variable_2="K_i"/>
+        <map_variables variable_1="T_correction_BK" variable_2="T_correction_BK"/>
+    </connection>
+    <component name="output">
+        <variable name="time" public_interface="out" units="time_units"/>
+        <variable name="Vm_SM" public_interface="in" units="voltage_units"/>
+        <variable name="E_K" public_interface="in" units="voltage_units"/>
+        <variable name="I_BK_SM" public_interface="in" units="current_units"/>
+    </component>
+    <connection>
+        <map_components component_1="output" component_2="I_BK_SM"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="E_K" variable_2="E_K"/>
+        <map_variables variable_1="Vm_SM" variable_2="Vm_SM"/>
+        <map_variables variable_1="I_BK_SM" variable_2="I_BK_SM"/>
+    </connection>
+</model>

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="experiment_ICaCl" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="time_units" units_ref="time_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+        <units name="R_units" units_ref="R_units"/>
+        <units name="F_units" units_ref="F_units"/>
+        <units name="Temperature_units" units_ref="Temperature_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="Inverse_Voltage_units" units_ref="Inverse_Voltage_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="current_units" units_ref="current_units"/>
+    </import>
+    <import xlink:href="../common/generator.cellml">
+        <component component_ref="experiment" name="experiment"/>
+    </import>
+    <import xlink:href="ICaCl.cellml">
+        <component component_ref="I_CaCl" name="I_CaCl"/>
+    </import>
+    <connection>
+        <map_components component_1="experiment" component_2="I_CaCl"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Ca_i" variable_2="Ca_i"/>
+    </connection>
+    <import xlink:href="../common/parameters.cellml">
+        <component component_ref="parameter_values" name="parameter_values"/>
+    </import>
+    <connection>
+        <map_components component_1="parameter_values" component_2="I_CaCl"/>
+        <map_variables variable_1="RToF" variable_2="RToF"/>
+        <map_variables variable_1="Cl_o" variable_2="Cl_o"/>
+        <map_variables variable_1="Cl_i" variable_2="Cl_i"/>
+    </connection>
+    <component name="output">
+        <variable name="time" public_interface="out" units="time_units"/>
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="E_Cl" public_interface="in" units="voltage_units"/>
+        <variable name="d_CaCl" private_interface="in" units="dimensionless"/>
+        <variable name="I_CaCl" public_interface="in" units="current_units"/>
+    </component>
+    <connection>
+        <map_components component_1="output" component_2="I_CaCl"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="E_Cl" variable_2="E_Cl"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="d_CaCl" variable_2="d_CaCl"/>
+        <map_variables variable_1="I_CaCl" variable_2="I_CaCl"/>
+    </connection>
+</model>

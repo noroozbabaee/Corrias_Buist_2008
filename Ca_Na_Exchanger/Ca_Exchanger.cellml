@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model cmeta:id="Ca_Exchanger" name="JPMCA" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="time_units" units_ref="time_units"/>
+        <units name="millimolar_per_second" units_ref="millimolar_per_second"/>
+        <units name="millimolar" units_ref="millimolar"/>
+    </import>
+    <component name="J_PMCA">
+        <variable name="J_PMCA" public_interface="out" units="millimolar_per_second"/>
+        <variable initial_value="0.088464" name="J_max_PMCA" units="millimolar_per_second"/>
+        <variable name="Ca_i" public_interface="in" units="millimolar"/>
+        <variable name="time" private_interface="out" public_interface="in" units="time_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>J_PMCA</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>J_max_PMCA</ci>
+                        <cn cellml:units="dimensionless">1</cn>
+                    </apply>
+                    <apply>
+                        <plus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <divide/>
+                            <cn cellml:units="millimolar">0.000298</cn>
+                            <ci>Ca_i</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+        <variable initial_value="0" name="m" public_interface="out" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>m</ci>
+                </apply>
+                <cn cellml:units="dimensionless">1</cn>
+            </apply>
+        </math>
+    </component>
+</model>

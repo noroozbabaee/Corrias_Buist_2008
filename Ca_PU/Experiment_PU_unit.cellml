@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="experiment_Pu_unit" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="time_units" units_ref="time_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+        <units name="per_millimolar" units_ref="per_millimolar"/>
+        <units name="millimolar_per_second" units_ref="millimolar_per_second"/>
+        <units name="R_units" units_ref="R_units"/>
+        <units name="F_units" units_ref="F_units"/>
+        <units name="Temperature_units" units_ref="Temperature_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="Inverse_Voltage_units" units_ref="Inverse_Voltage_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="current_units" units_ref="current_units"/>
+        <units name="millimolar_per_second_per_millivolt" units_ref="millimolar_per_second_per_millivolt"/>
+        <units name="millifarads" units_ref="millifarads"/>
+        <units name="volume_units" units_ref="volume_units"/>
+        <units name="rate_constants_units" units_ref="rate_constants_units"/>
+    </import>
+    <import xlink:href="../common/generator.cellml">
+        <component component_ref="experiment" name="experiment"/>
+    </import>
+    <import xlink:href="PU.cellml">
+        <component component_ref="PU_unit" name="PU_unit"/>
+    </import>
+    <connection>
+        <map_components component_1="experiment" component_2="PU_unit"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Ca_i" variable_2="Ca_i"/>
+    </connection>
+    <import xlink:href="../common/parameters.cellml">
+        <component component_ref="parameter_values" name="parameter_values"/>
+    </import>
+    <connection>
+        <map_components component_1="parameter_values" component_2="PU_unit"/>
+        <map_variables variable_1="RToF" variable_2="RToF"/>
+        <map_variables variable_1="FoRT" variable_2="FoRT"/>
+        <map_variables variable_1="Na_i" variable_2="Na_i"/>
+        <map_variables variable_1="F" variable_2="F"/>
+    </connection>
+    <component name="output">
+        <variable name="time" public_interface="out" units="time_units"/>
+        <variable name="J_ERout" public_interface="in" units="millimolar_per_second"/>
+        <variable name="J_SERCA" public_interface="in" units="millimolar_per_second"/>
+        <variable name="J_uni" public_interface="in" units="millimolar_per_second"/>
+        <variable name="J_NaCa" public_interface="in" units="millimolar_per_second"/>
+        <variable name="J_leak" public_interface="in" units="millimolar_per_second"/>
+        <variable name="Ca_PU" public_interface="in" units="millimolar"/>
+        <variable name="Ca_m" public_interface="in" units="millimolar"/>
+        <variable name="Ca_ER" public_interface="in" units="millimolar"/>
+    </component>
+    <connection>
+        <map_components component_1="output" component_2="PU_unit"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="J_ERout" variable_2="J_ERout"/>
+        <map_variables variable_1="J_SERCA" variable_2="J_SERCA"/>
+        <map_variables variable_1="J_uni" variable_2="J_uni"/>
+        <map_variables variable_1="J_NaCa" variable_2="J_NaCa"/>
+        <map_variables variable_1="J_leak" variable_2="J_leak"/>
+        <map_variables variable_1="Ca_m" variable_2="Ca_m"/>
+        <map_variables variable_1="Ca_ER" variable_2="Ca_ER"/>
+        <map_variables variable_1="Ca_PU" variable_2="Ca_PU"/>
+    </connection>
+</model>

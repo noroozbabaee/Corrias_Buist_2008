@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model cmeta:id="Non_Selective_Cation_Channel" name="INSCC" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="current_units" units_ref="current_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="time_units" units_ref="time_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+    </import>
+    <component name="d_NSCC">
+        <variable name="Ca_PU" public_interface="in" units="millimolar"/>
+        <variable name="d_inf_NSCC" units="dimensionless"/>
+        <variable initial_value="0.35" name="tau_d_NSCC" units="time_units"/>
+        <variable initial_value="0" name="d_NSCC" public_interface="out" units="dimensionless"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>d_inf_NSCC</ci>
+                <apply>
+                    <divide/>
+                    <cn cellml:units="dimensionless">1</cn>
+                    <apply>
+                        <plus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <power/>
+                            <apply>
+                                <divide/>
+                                <cn cellml:units="millimolar">0.0000745</cn>
+                                <ci>Ca_PU</ci>
+                            </apply>
+                            <apply>
+                                <minus/>
+                                <cn cellml:units="dimensionless">85</cn>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>d_NSCC</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>d_inf_NSCC</ci>
+                        <ci>d_NSCC</ci>
+                    </apply>
+                    <ci>tau_d_NSCC</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="I_NSCC">
+        <variable name="I_NSCC" public_interface="out" units="current_units"/>
+        <variable name="E_NSCC" units="voltage_units"/>
+        <variable initial_value="12.15" name="G_max_NSCC" units="conductance_units"/>
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="d_NSCC" private_interface="in" public_interface="out" units="dimensionless"/>
+        <variable name="RToF" public_interface="in" units="voltage_units"/>
+        <variable name="Na_o" public_interface="in" units="millimolar"/>
+        <variable name="Na_i" public_interface="in" units="millimolar"/>
+        <variable name="K_o" public_interface="in" units="millimolar"/>
+        <variable name="K_i" public_interface="in" units="millimolar"/>
+        <variable initial_value="1.056075" name="NaPerm_o_Kperm" units="dimensionless"/>
+        <variable name="Ca_PU" public_interface="in" units="millimolar"/>
+        <variable name="time" private_interface="out" public_interface="in" units="time_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>E_NSCC</ci>
+                <apply>
+                    <times/>
+                    <ci>RToF</ci>
+                    <apply>
+                        <ln/>
+                        <apply>
+                            <divide/>
+                            <apply>
+                                <plus/>
+                                <ci>K_o</ci>
+                                <apply>
+                                    <times/>
+                                    <ci>Na_o</ci>
+                                    <ci>NaPerm_o_Kperm</ci>
+                                </apply>
+                            </apply>
+                            <apply>
+                                <plus/>
+                                <ci>K_i</ci>
+                                <apply>
+                                    <times/>
+                                    <ci>Na_i</ci>
+                                    <ci>NaPerm_o_Kperm</ci>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>I_NSCC</ci>
+                <apply>
+                    <times/>
+                    <ci>G_max_NSCC</ci>
+                    <ci>d_NSCC</ci>
+                    <apply>
+                        <minus/>
+                        <ci>Vm</ci>
+                        <ci>E_NSCC</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <connection>
+        <map_components component_1="d_NSCC" component_2="I_NSCC"/>
+        <map_variables variable_1="Ca_PU" variable_2="Ca_PU"/>
+        <map_variables variable_1="d_NSCC" variable_2="d_NSCC"/>
+        <map_variables variable_1="time" variable_2="time"/>
+    </connection>
+    <group>
+        <relationship_ref relationship="encapsulation"/>
+        <component_ref component="I_NSCC">
+            <component_ref component="d_NSCC"/>
+        </component_ref>
+    </group>
+</model>

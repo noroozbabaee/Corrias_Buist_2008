@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="generator" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="units.cellml">
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="time_units" units_ref="time_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+        <units name="rate_constants_units" units_ref="rate_constants_units"/>
+    </import>
+    <import xlink:href="environment.cellml">
+        <component component_ref="environment" name="environment"/>
+    </import>
+    <connection>
+        <map_components component_1="environment" component_2="experiment"/>
+        <map_variables variable_1="time" variable_2="time"/>
+    </connection>
+    <component name="experiment">
+        <variable name="time" private_interface="out" public_interface="in" units="time_units"/>
+        <variable name="Ca_i" private_interface="none" public_interface="out" units="millimolar"/>
+        <variable name="Vm" private_interface="none" public_interface="out" units="voltage_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>Ca_i</ci>
+                <apply>
+                    <plus/>
+                    <cn cellml:units="millimolar">0.001</cn>
+                    <apply>
+                        <divide/>
+                        <apply>
+                            <times/>
+                            <cn cellml:units="millimolar">0.0096</cn>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <plus/>
+                            <cn cellml:units="dimensionless">1</cn>
+                            <apply>
+                                <exp/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <times/>
+                                            <cn cellml:units="rate_constants_units">0.5</cn>
+                                            <ci>time</ci>
+                                        </apply>
+                                        <cn cellml:units="dimensionless">100</cn>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>Vm</ci>
+                <apply>
+                    <plus/>
+                    <apply>
+                        <minus/>
+                        <cn cellml:units="voltage_units">50</cn>
+                    </apply>
+                    <apply>
+                        <divide/>
+                        <apply>
+                            <times/>
+                            <cn cellml:units="voltage_units">50</cn>
+                            <cn cellml:units="dimensionless">1</cn>
+                        </apply>
+                        <apply>
+                            <plus/>
+                            <cn cellml:units="dimensionless">1</cn>
+                            <apply>
+                                <exp/>
+                                <apply>
+                                    <minus/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <times/>
+                                            <cn cellml:units="rate_constants_units">0.5</cn>
+                                            <ci>time</ci>
+                                        </apply>
+                                        <cn cellml:units="dimensionless">100</cn>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+        <variable initial_value="0" name="m" public_interface="out" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>m</ci>
+                </apply>
+                <cn cellml:units="dimensionless">1</cn>
+            </apply>
+        </math>
+    </component>
+</model>

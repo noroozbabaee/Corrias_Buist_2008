@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model cmeta:id="Ibk" name="Ibk" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="current_units" units_ref="current_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="time_units" units_ref="time_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+    </import>
+    <component name="I_bk">
+        <variable name="I_bk" public_interface="out" units="current_units"/>
+        <variable name="E_K" public_interface="out" units="voltage_units"/>
+        <variable initial_value="0.15" name="G_max_bk" units="conductance_units"/>
+        <variable name="time" private_interface="out" public_interface="in" units="time_units"/>
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="RToF" public_interface="in" units="voltage_units"/>
+        <variable name="K_o" public_interface="in" units="millimolar"/>
+        <variable name="K_i" public_interface="in" units="millimolar"/>
+        <variable initial_value="0" name="m" public_interface="none" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>m</ci>
+                </apply>
+                <cn cellml:units="dimensionless">1</cn>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>E_K</ci>
+                <apply>
+                    <times/>
+                    <ci>RToF</ci>
+                    <apply>
+                        <ln/>
+                        <apply>
+                            <divide/>
+                            <ci>K_o</ci>
+                            <ci>K_i</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>I_bk</ci>
+                <apply>
+                    <times/>
+                    <ci>G_max_bk</ci>
+                    <apply>
+                        <minus/>
+                        <ci>Vm</ci>
+                        <ci>E_K</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+</model>

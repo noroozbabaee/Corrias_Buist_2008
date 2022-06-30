@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="units" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#">
+    <units name="conductance_units">
+        <unit prefix="nano" units="siemens"/>
+    </units>
+    <units name="millifarads">
+        <unit prefix="milli" units="farad"/>
+    </units>
+    <units name="voltage_units">
+        <unit prefix="milli" units="volt"/>
+    </units>
+    <units name="volume_units">
+        <unit units="litre"/>
+    </units>
+    <units name="Inverse_Voltage_units">
+        <unit exponent="-1" units="voltage_units"/>
+    </units>
+    <units name="Inverse_Voltage_Units_per_time_units">
+        <unit units="Inverse_Voltage_units"/>
+        <unit exponent="-1" units="time_units"/>
+    </units>
+    <units name="time_units">
+        <unit units="second"/>
+    </units>
+    <units name="current_units">
+        <unit units="voltage_units"/>
+        <unit units="conductance_units"/>
+    </units>
+    <units name="rate_constants_units">
+        <unit exponent="-1" units="time_units"/>
+    </units>
+    <units name="capacitance_units">
+        <unit prefix="nano" units="farad"/>
+    </units>
+    <units name="Temperature_units">
+        <unit units="kelvin"/>
+    </units>
+    <units name="Inverse_Temperature_units_times_conductance">
+        <unit exponent="-1" units="Temperature_units"/>
+        <unit units="conductance_units"/>
+    </units>
+    <units name="F_units">
+        <unit exponent="-1" prefix="nano" units="mole"/>
+        <unit prefix="micro" units="coulomb"/>
+    </units>
+    <units name="R_units">
+        <unit prefix="nano" units="joule"/>
+        <unit exponent="-1" prefix="nano" units="mole"/>
+        <unit exponent="-1" units="kelvin"/>
+    </units>
+    <units name="millimolar">
+        <unit prefix="milli" units="mole"/>
+        <unit exponent="-1" units="litre"/>
+    </units>
+    <units name="per_millimolar">
+        <unit units="litre"/>
+        <unit exponent="-1" prefix="milli" units="mole"/>
+    </units>
+    <units name="millimolar_per_second">
+        <unit prefix="milli" units="mole"/>
+        <unit exponent="-1" units="litre"/>
+        <unit exponent="-1" units="second"/>
+    </units>
+    <units name="millimolar_per_second_per_millivolt">
+        <unit prefix="milli" units="mole"/>
+        <unit exponent="-1" units="litre"/>
+        <unit exponent="-1" units="second"/>
+        <unit exponent="-1" prefix="milli" units="volt"/>
+    </units>
+    <units name="millimole_to_nanomole">
+        <unit prefix="nano" units="mole"/>
+        <unit exponent="-1" prefix="milli" units="mole"/>
+    </units>
+    <units name="microcoulomb_to_picocoulomb">
+        <unit prefix="pico" units="coulomb"/>
+        <unit exponent="-1" prefix="micro" units="coulomb"/>
+    </units>
+</model>

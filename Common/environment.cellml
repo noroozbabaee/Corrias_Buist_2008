@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model cmeta:id="environment" name="environment" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#">
+    <component name="environment">
+        <variable cmeta:id="environment_time" name="time" private_interface="out" public_interface="out" units="time_units"/>
+    </component>
+    <component name="Neural_input">
+        <variable initial_value="0.00001" name="Ach" private_interface="out" public_interface="out" units="millimolar"/>
+    </component>
+</model>

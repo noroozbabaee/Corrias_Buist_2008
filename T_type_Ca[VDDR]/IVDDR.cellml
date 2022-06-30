@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model cmeta:id="DHP-Resistant-Conductance" name="IVDDR" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="current_units" units_ref="current_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="time_units" units_ref="time_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+    </import>
+    <component name="d_VDDR">
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="d_inf_VDDR" units="dimensionless"/>
+        <variable name="tau_d_VDDR" units="time_units"/>
+        <variable initial_value="0" name="d_VDDR" public_interface="out" units="dimensionless"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <variable name="T_correction_Ca" public_interface="in" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>d_inf_VDDR</ci>
+                <apply>
+                    <divide/>
+                    <cn cellml:units="dimensionless">1</cn>
+                    <apply>
+                        <plus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <exp/>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <plus/>
+                                    <ci>Vm</ci>
+                                    <cn cellml:units="voltage_units">26</cn>
+                                </apply>
+                                <apply>
+                                    <minus/>
+                                    <cn cellml:units="voltage_units">6</cn>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>tau_d_VDDR</ci>
+                <apply>
+                    <times/>
+                    <ci>T_correction_Ca</ci>
+                    <cn cellml:units="time_units">0.006</cn>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>d_VDDR</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>d_inf_VDDR</ci>
+                        <ci>d_VDDR</ci>
+                    </apply>
+                    <ci>tau_d_VDDR</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="f_VDDR">
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="f_inf_VDDR" units="dimensionless"/>
+        <variable name="tau_f_VDDR" units="time_units"/>
+        <variable initial_value="1" name="f_VDDR" public_interface="out" units="dimensionless"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <variable name="T_correction_Ca" public_interface="in" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>f_inf_VDDR</ci>
+                <apply>
+                    <divide/>
+                    <cn cellml:units="dimensionless">1</cn>
+                    <apply>
+                        <plus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <exp/>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <plus/>
+                                    <ci>Vm</ci>
+                                    <cn cellml:units="voltage_units">66</cn>
+                                </apply>
+                                <cn cellml:units="voltage_units">6</cn>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>tau_f_VDDR</ci>
+                <apply>
+                    <times/>
+                    <ci>T_correction_Ca</ci>
+                    <cn cellml:units="time_units">0.04</cn>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>f_VDDR</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>f_inf_VDDR</ci>
+                        <ci>f_VDDR</ci>
+                    </apply>
+                    <ci>tau_f_VDDR</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="I_VDDR">
+        <variable name="I_VDDR" public_interface="out" units="current_units"/>
+        <variable name="E_Ca" units="voltage_units"/>
+        <variable initial_value="3" name="G_max_VDDR" units="conductance_units"/>
+        <variable name="Vm" private_interface="out" public_interface="in" units="voltage_units"/>
+        <variable name="f_VDDR" private_interface="in" units="dimensionless"/>
+        <variable name="d_VDDR" private_interface="in" units="dimensionless"/>
+        <variable name="RToF" public_interface="in" units="voltage_units"/>
+        <variable name="Ca_o" public_interface="in" units="millimolar"/>
+        <variable name="Ca_i" public_interface="in" units="millimolar"/>
+        <variable name="T_correction_Ca" private_interface="out" public_interface="in" units="dimensionless"/>
+        <variable name="time" private_interface="out" public_interface="in" units="time_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>E_Ca</ci>
+                <apply>
+                    <times/>
+                    <cn cellml:units="dimensionless">0.5</cn>
+                    <ci>RToF</ci>
+                    <apply>
+                        <ln/>
+                        <apply>
+                            <divide/>
+                            <ci>Ca_o</ci>
+                            <ci>Ca_i</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>I_VDDR</ci>
+                <apply>
+                    <times/>
+                    <ci>G_max_VDDR</ci>
+                    <ci>f_VDDR</ci>
+                    <ci>d_VDDR</ci>
+                    <apply>
+                        <minus/>
+                        <ci>Vm</ci>
+                        <ci>E_Ca</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <connection>
+        <map_components component_1="d_VDDR" component_2="I_VDDR"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="d_VDDR" variable_2="d_VDDR"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="T_correction_Ca" variable_2="T_correction_Ca"/>
+    </connection>
+    <connection>
+        <map_components component_1="f_VDDR" component_2="I_VDDR"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="f_VDDR" variable_2="f_VDDR"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="T_correction_Ca" variable_2="T_correction_Ca"/>
+    </connection>
+    <group>
+        <relationship_ref relationship="encapsulation"/>
+        <component_ref component="I_VDDR">
+            <component_ref component="d_VDDR"/>
+            <component_ref component="f_VDDR"/>
+        </component_ref>
+    </group>
+</model>

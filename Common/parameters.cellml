@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="Parameters" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="units.cellml">
+        <units name="millimolar" units_ref="millimolar"/>
+        <units name="R_units" units_ref="R_units"/>
+        <units name="F_units" units_ref="F_units"/>
+        <units name="Temperature_units" units_ref="Temperature_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="Inverse_Voltage_units" units_ref="Inverse_Voltage_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+    </import>
+    <component name="parameter_values">
+        <variable initial_value="310" name="T" private_interface="out" units="Temperature_units"/>
+        <variable initial_value="297" name="T_exp" private_interface="out" units="Temperature_units"/>
+        <variable initial_value="96.4846" name="F" private_interface="out" public_interface="out" units="F_units"/>
+        <variable initial_value="8.3144" name="R" private_interface="out" units="R_units"/>
+        <variable initial_value="2.1" name="Q10Ca" private_interface="out" units="dimensionless"/>
+        <variable initial_value="1.5" name="Q10K" private_interface="out" units="dimensionless"/>
+        <variable initial_value="2.45" name="Q10Na" private_interface="out" units="dimensionless"/>
+        <variable initial_value="2.5" name="Ca_o" private_interface="out" public_interface="out" units="millimolar"/>
+        <variable initial_value="137" name="Na_o" private_interface="out" public_interface="out" units="millimolar"/>
+        <variable initial_value="7" name="K_o" private_interface="out" public_interface="out" units="millimolar"/>
+        <variable initial_value="134" name="Cl_o" private_interface="out" public_interface="out" units="millimolar"/>
+        <variable initial_value="88" name="Cl_i" private_interface="out" public_interface="out" units="millimolar"/>
+        <variable initial_value="30" name="Na_i" private_interface="out" public_interface="out" units="millimolar"/>
+        <variable initial_value="120" name="K_i" private_interface="out" public_interface="out" units="millimolar"/>
+        <variable name="T_correction_Na" private_interface="out" public_interface="out" units="dimensionless"/>
+        <variable name="T_correction_K" private_interface="out" public_interface="out" units="dimensionless"/>
+        <variable name="T_correction_Ca" private_interface="out" public_interface="out" units="dimensionless"/>
+        <variable name="T_correction_BK" private_interface="out" public_interface="out" units="conductance_units"/>
+        <variable name="FoRT" private_interface="out" public_interface="out" units="Inverse_Voltage_units"/>
+        <variable name="RToF" private_interface="out" public_interface="out" units="voltage_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>FoRT</ci>
+                <apply>
+                    <divide/>
+                    <ci>F</ci>
+                    <apply>
+                        <times/>
+                        <ci>R</ci>
+                        <ci>T</ci>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>RToF</ci>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <times/>
+                        <ci>R</ci>
+                        <ci>T</ci>
+                    </apply>
+                    <ci>F</ci>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>T_correction_Ca</ci>
+                <apply>
+                    <power/>
+                    <ci>Q10Ca</ci>
+                    <apply>
+                        <divide/>
+                        <apply>
+                            <minus/>
+                            <ci>T</ci>
+                            <ci>T_exp</ci>
+                        </apply>
+                        <cn cellml:units="Temperature_units">10</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>T_correction_K</ci>
+                <apply>
+                    <power/>
+                    <ci>Q10K</ci>
+                    <apply>
+                        <divide/>
+                        <apply>
+                            <minus/>
+                            <ci>T</ci>
+                            <ci>T_exp</ci>
+                        </apply>
+                        <cn cellml:units="Temperature_units">10</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>T_correction_Na</ci>
+                <apply>
+                    <power/>
+                    <ci>Q10Na</ci>
+                    <apply>
+                        <divide/>
+                        <apply>
+                            <minus/>
+                            <ci>T</ci>
+                            <ci>T_exp</ci>
+                        </apply>
+                        <cn cellml:units="Temperature_units">10</cn>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>T_correction_BK</ci>
+                <apply>
+                    <times/>
+                    <cn cellml:units="Inverse_Temperature_units_times_conductance">1.1</cn>
+                    <apply>
+                        <minus/>
+                        <ci>T</ci>
+                        <ci>T_exp</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+</model>

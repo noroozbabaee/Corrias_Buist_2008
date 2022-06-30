@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="experiment_Ca_Exchanger" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="time_units" units_ref="time_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+        <units name="millimolar_per_second" units_ref="millimolar_per_second"/>
+    </import>
+    <import xlink:href="../common/generator.cellml">
+        <component component_ref="experiment" name="experiment"/>
+    </import>
+    <connection>
+        <map_components component_1="experiment" component_2="J_PMCA"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Ca_i" variable_2="Ca_i"/>
+    </connection>
+    <import xlink:href="Ca_Exchanger.cellml">
+        <component component_ref="J_PMCA" name="J_PMCA"/>
+    </import>
+    <import xlink:href="../common/parameters.cellml">
+        <component component_ref="parameter_values" name="parameter_values"/>
+    </import>
+    <component name="output">
+        <variable name="time" public_interface="out" units="time_units"/>
+        <variable name="J_PMCA" public_interface="in" units="millimolar_per_second"/>
+    </component>
+    <connection>
+        <map_components component_1="output" component_2="J_PMCA"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="J_PMCA" variable_2="J_PMCA"/>
+    </connection>
+</model>

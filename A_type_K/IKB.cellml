@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model cmeta:id="A_type_K_Channel" name="IKB" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="current_units" units_ref="current_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="time_units" units_ref="time_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+    </import>
+    <component name="d_BK">
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="Ca_i" public_interface="in" units="millimolar"/>
+        <variable name="d_BK" public_interface="out" units="dimensionless"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>d_BK</ci>
+                <apply>
+                    <divide/>
+                    <cn cellml:units="dimensionless">1</cn>
+                    <apply>
+                        <plus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <exp/>
+                            <apply>
+                                <minus/>
+                                <apply>
+                                    <divide/>
+                                    <ci>Vm</ci>
+                                    <apply>
+                                        <minus/>
+                                        <cn cellml:units="voltage_units">17</cn>
+                                    </apply>
+                                </apply>
+                                <apply>
+                                    <times/>
+                                    <cn cellml:units="dimensionless">2</cn>
+                                    <apply>
+                                        <ln/>
+                                        <apply>
+                                            <divide/>
+                                            <ci>Ca_i</ci>
+                                            <cn cellml:units="millimolar">0.001</cn>
+                                        </apply>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="I_BK">
+        <variable name="I_BK" public_interface="out" units="current_units"/>
+        <variable name="Ca_i" private_interface="out" public_interface="in" units="millimolar"/>
+        <variable name="E_K" units="voltage_units"/>
+        <variable initial_value="23" name="G_max_BK" units="conductance_units"/>
+        <variable name="Vm" private_interface="out" public_interface="in" units="voltage_units"/>
+        <variable name="d_BK" private_interface="in" units="dimensionless"/>
+        <variable name="RToF" public_interface="in" units="voltage_units"/>
+        <variable name="K_o" public_interface="in" units="millimolar"/>
+        <variable name="K_i" public_interface="in" units="millimolar"/>
+        <variable name="T_correction_BK" public_interface="in" units="conductance_units"/>
+        <variable name="time" private_interface="out" public_interface="in" units="time_units"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>E_K</ci>
+                <apply>
+                    <times/>
+                    <ci>RToF</ci>
+                    <apply>
+                        <ln/>
+                        <apply>
+                            <divide/>
+                            <ci>K_o</ci>
+                            <ci>K_i</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>I_BK</ci>
+                <apply>
+                    <times/>
+                    <apply>
+                        <plus/>
+                        <ci>G_max_BK</ci>
+                        <ci>T_correction_BK</ci>
+                    </apply>
+                    <ci>d_BK</ci>
+                    <apply>
+                        <minus/>
+                        <ci>Vm</ci>
+                        <ci>E_K</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <connection>
+        <map_components component_1="d_BK" component_2="I_BK"/>
+        <map_variables variable_1="Ca_i" variable_2="Ca_i"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="d_BK" variable_2="d_BK"/>
+        <map_variables variable_1="time" variable_2="time"/>
+    </connection>
+    <group>
+        <relationship_ref relationship="encapsulation"/>
+        <component_ref component="I_BK">
+            <component_ref component="d_BK"/>
+        </component_ref>
+    </group>
+</model>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model name="experiment_INSCC" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="time_units" units_ref="time_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+        <units name="R_units" units_ref="R_units"/>
+        <units name="F_units" units_ref="F_units"/>
+        <units name="Temperature_units" units_ref="Temperature_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="Inverse_Voltage_units" units_ref="Inverse_Voltage_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="current_units" units_ref="current_units"/>
+    </import>
+    <import xlink:href="../common/generator.cellml">
+        <component component_ref="experiment" name="experiment"/>
+    </import>
+    <import xlink:href="INSCC.cellml">
+        <component component_ref="I_NSCC" name="I_NSCC"/>
+    </import>
+    <import xlink:href="C:/Users/lnor300/Documents/CellML/12_Labors/GI_system/Stomach/Corrias_Buist_2008/Ca2+_PU/PU.cellml">
+        <component component_ref="PU_unit" name="PU_unit"/>
+    </import>
+    <import xlink:href="../common/parameters.cellml">
+        <component component_ref="parameter_values" name="parameter_values"/>
+    </import>
+    <connection>
+        <map_components component_1="experiment" component_2="I_NSCC"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+    </connection>
+    <connection>
+        <map_components component_1="experiment" component_2="PU_unit"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Ca_i" variable_2="Ca_i"/>
+    </connection>
+    <connection>
+        <map_components component_1="parameter_values" component_2="PU_unit"/>
+        <map_variables variable_1="RToF" variable_2="RToF"/>
+        <map_variables variable_1="FoRT" variable_2="FoRT"/>
+        <map_variables variable_1="Na_i" variable_2="Na_i"/>
+        <map_variables variable_1="F" variable_2="F"/>
+    </connection>
+    <connection>
+        <map_components component_1="PU_unit" component_2="I_NSCC"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Ca_PU" variable_2="Ca_PU"/>
+        <map_variables variable_1="Na_i" variable_2="Na_i"/>
+    </connection>
+    <connection>
+        <map_components component_1="parameter_values" component_2="I_NSCC"/>
+        <map_variables variable_1="RToF" variable_2="RToF"/>
+        <map_variables variable_1="Na_i" variable_2="Na_i"/>
+        <map_variables variable_1="Na_o" variable_2="Na_o"/>
+        <map_variables variable_1="K_i" variable_2="K_i"/>
+        <map_variables variable_1="K_o" variable_2="K_o"/>
+    </connection>
+    <component name="output">
+        <variable name="time" public_interface="out" units="time_units"/>
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="I_NSCC" public_interface="in" units="current_units"/>
+        <variable name="d_NSCC" public_interface="in" units="dimensionless"/>
+        <variable name="Ca_PU" public_interface="in" units="millimolar"/>
+    </component>
+    <connection>
+        <map_components component_1="output" component_2="I_NSCC"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="d_NSCC" variable_2="d_NSCC"/>
+        <map_variables variable_1="Ca_PU" variable_2="Ca_PU"/>
+        <map_variables variable_1="I_NSCC" variable_2="I_NSCC"/>
+    </connection>
+</model>

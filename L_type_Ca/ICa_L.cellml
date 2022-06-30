@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model cmeta:id="L_type_Ca_model" name="ICa_L" xmlns="http://www.cellml.org/cellml/1.1#" xmlns:cellml="http://www.cellml.org/cellml/1.1#" xmlns:cmeta="http://www.cellml.org/metadata/1.0#" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <import xlink:href="../common/units.cellml">
+        <units name="current_units" units_ref="current_units"/>
+        <units name="voltage_units" units_ref="voltage_units"/>
+        <units name="time_units" units_ref="time_units"/>
+        <units name="conductance_units" units_ref="conductance_units"/>
+        <units name="millimolar" units_ref="millimolar"/>
+    </import>
+    <component name="d_Ltype">
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="d_inf_Ltype" units="dimensionless"/>
+        <variable name="tau_d_Ltype" units="time_units"/>
+        <variable initial_value="0.0" name="d_Ltype" public_interface="out" units="dimensionless"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <variable name="T_correction_Ca" private_interface="none" public_interface="in" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>d_inf_Ltype</ci>
+                <apply>
+                    <divide/>
+                    <cn cellml:units="dimensionless">1</cn>
+                    <apply>
+                        <plus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <exp/>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <plus/>
+                                    <ci>Vm</ci>
+                                    <cn cellml:units="voltage_units">17</cn>
+                                </apply>
+                                <apply>
+                                    <minus/>
+                                    <cn cellml:units="voltage_units">4.3</cn>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>tau_d_Ltype</ci>
+                <apply>
+                    <times/>
+                    <ci>T_correction_Ca</ci>
+                    <cn cellml:units="time_units">0.001</cn>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>d_Ltype</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>d_inf_Ltype</ci>
+                        <ci>d_Ltype</ci>
+                    </apply>
+                    <ci>tau_d_Ltype</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="f_Ltype">
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <variable name="f_inf_Ltype" units="dimensionless"/>
+        <variable name="tau_f_Ltype" units="time_units"/>
+        <variable initial_value="0.95" name="f_Ltype" public_interface="out" units="dimensionless"/>
+        <variable name="T_correction_Ca" private_interface="none" public_interface="in" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>f_inf_Ltype</ci>
+                <apply>
+                    <divide/>
+                    <cn cellml:units="dimensionless">1</cn>
+                    <apply>
+                        <plus/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <exp/>
+                            <apply>
+                                <divide/>
+                                <apply>
+                                    <plus/>
+                                    <ci>Vm</ci>
+                                    <cn cellml:units="voltage_units">43</cn>
+                                </apply>
+                                <cn cellml:units="voltage_units">8.9</cn>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>tau_f_Ltype</ci>
+                <apply>
+                    <times/>
+                    <ci>T_correction_Ca</ci>
+                    <cn cellml:units="time_units">0.086</cn>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>f_Ltype</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>f_inf_Ltype</ci>
+                        <ci>f_Ltype</ci>
+                    </apply>
+                    <ci>tau_f_Ltype</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="f_ca_Ltype">
+        <variable name="Ca_i" public_interface="in" units="millimolar"/>
+        <variable name="f_ca_inf_Ltype" units="dimensionless"/>
+        <variable name="tau_f_ca_Ltype" units="time_units"/>
+        <variable initial_value="1.0" name="f_ca_Ltype" public_interface="out" units="dimensionless"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <variable name="T_correction_Ca" private_interface="none" public_interface="in" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>f_ca_inf_Ltype</ci>
+                <apply>
+                    <minus/>
+                    <cn cellml:units="dimensionless">1</cn>
+                    <apply>
+                        <divide/>
+                        <cn cellml:units="dimensionless">1</cn>
+                        <apply>
+                            <plus/>
+                            <cn cellml:units="dimensionless">1</cn>
+                            <apply>
+                                <exp/>
+                                <apply>
+                                    <divide/>
+                                    <apply>
+                                        <minus/>
+                                        <apply>
+                                            <minus/>
+                                            <ci>Ca_i</ci>
+                                            <cn cellml:units="millimolar">0.0001</cn>
+                                        </apply>
+                                        <cn cellml:units="millimolar">0.000214</cn>
+                                    </apply>
+                                    <apply>
+                                        <minus/>
+                                        <cn cellml:units="millimolar">0.0000131</cn>
+                                    </apply>
+                                </apply>
+                            </apply>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>tau_f_ca_Ltype</ci>
+                <apply>
+                    <times/>
+                    <ci>T_correction_Ca</ci>
+                    <cn cellml:units="time_units">0.002</cn>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <apply>
+                    <diff/>
+                    <bvar>
+                        <ci>time</ci>
+                    </bvar>
+                    <ci>f_ca_Ltype</ci>
+                </apply>
+                <apply>
+                    <divide/>
+                    <apply>
+                        <minus/>
+                        <ci>f_ca_inf_Ltype</ci>
+                        <ci>f_ca_Ltype</ci>
+                    </apply>
+                    <ci>tau_f_ca_Ltype</ci>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <component name="I_Ltype">
+        <variable name="I_Ltype" private_interface="out" public_interface="out" units="current_units"/>
+        <variable name="E_Ca" private_interface="out" public_interface="out" units="voltage_units"/>
+        <variable initial_value="65" name="G_max_Ltype" units="conductance_units"/>
+        <variable name="Vm" public_interface="in" units="voltage_units"/>
+        <variable name="time" public_interface="in" units="time_units"/>
+        <variable name="Ca_i" public_interface="in" units="millimolar"/>
+        <variable name="f_Ltype" private_interface="in" units="dimensionless"/>
+        <variable name="d_Ltype" private_interface="in" units="dimensionless"/>
+        <variable name="f_ca_Ltype" private_interface="in" units="dimensionless"/>
+        <variable name="RToF" private_interface="none" public_interface="in" units="voltage_units"/>
+        <variable name="Ca_o" private_interface="none" public_interface="in" units="millimolar"/>
+        <variable name="T_correction_Ca" private_interface="out" public_interface="in" units="dimensionless"/>
+        <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+                <eq/>
+                <ci>E_Ca</ci>
+                <apply>
+                    <times/>
+                    <cn cellml:units="dimensionless">0.5</cn>
+                    <ci>RToF</ci>
+                    <apply>
+                        <ln/>
+                        <apply>
+                            <divide/>
+                            <ci>Ca_o</ci>
+                            <ci>Ca_i</ci>
+                        </apply>
+                    </apply>
+                </apply>
+            </apply>
+            <apply>
+                <eq/>
+                <ci>I_Ltype</ci>
+                <apply>
+                    <times/>
+                    <ci>G_max_Ltype</ci>
+                    <ci>f_Ltype</ci>
+                    <ci>d_Ltype</ci>
+                    <ci>f_ca_Ltype</ci>
+                    <apply>
+                        <minus/>
+                        <ci>Vm</ci>
+                        <ci>E_Ca</ci>
+                    </apply>
+                </apply>
+            </apply>
+        </math>
+    </component>
+    <connection>
+        <map_components component_1="d_Ltype" component_2="I_Ltype"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="d_Ltype" variable_2="d_Ltype"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="T_correction_Ca" variable_2="T_correction_Ca"/>
+    </connection>
+    <connection>
+        <map_components component_1="f_Ltype" component_2="I_Ltype"/>
+        <map_variables variable_1="Vm" variable_2="Vm"/>
+        <map_variables variable_1="f_Ltype" variable_2="f_Ltype"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="T_correction_Ca" variable_2="T_correction_Ca"/>
+    </connection>
+    <connection>
+        <map_components component_1="f_ca_Ltype" component_2="I_Ltype"/>
+        <map_variables variable_1="f_ca_Ltype" variable_2="f_ca_Ltype"/>
+        <map_variables variable_1="Ca_i" variable_2="Ca_i"/>
+        <map_variables variable_1="time" variable_2="time"/>
+        <map_variables variable_1="T_correction_Ca" variable_2="T_correction_Ca"/>
+    </connection>
+    <group>
+        <relationship_ref relationship="encapsulation"/>
+        <component_ref component="I_Ltype">
+            <component_ref component="d_Ltype"/>
+            <component_ref component="f_Ltype"/>
+            <component_ref component="f_ca_Ltype"/>
+        </component_ref>
+    </group>
+</model>
